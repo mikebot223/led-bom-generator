@@ -11,75 +11,8 @@
 <body>
     <div class="container-fluid">
         <div class="row">
-            <!-- Sidebar -->
-            <div class="col-md-3 sidebar">
-                <div class="sidebar-header">
-                    <h4><i class="fas fa-lightbulb"></i> LED BOM Generator</h4>
-                    <p>AI-powered Bill of Materials creation for LED components</p>
-                </div>
-                
-                <div class="sidebar-content">
-                    <div class="input-methods">
-                        <h6>Input Methods</h6>
-                        <div class="btn-group w-100 mb-3" role="group">
-                            <input type="radio" class="btn-check" name="inputMethod" id="modelInput" value="model" checked>
-                            <label class="btn btn-outline-primary" for="modelInput">
-                                <i class="fas fa-search"></i> Model
-                            </label>
-                            
-                            <input type="radio" class="btn-check" name="inputMethod" id="textInput" value="text">
-                            <label class="btn btn-outline-primary" for="textInput">
-                                <i class="fas fa-keyboard"></i> Text
-                            </label>
-                            
-                            <input type="radio" class="btn-check" name="inputMethod" id="csvInput" value="csv">
-                            <label class="btn btn-outline-primary" for="csvInput">
-                                <i class="fas fa-file-csv"></i> CSV
-                            </label>
-                            
-                            <input type="radio" class="btn-check" name="inputMethod" id="xlsxInput" value="xlsx">
-                            <label class="btn btn-outline-primary" for="xlsxInput">
-                                <i class="fas fa-file-excel"></i> XLSX
-                            </label>
-                        </div>
-                    </div>
-                    
-                    <div class="model-search-section" id="modelSearchSection">
-                        <h6>Model Search</h6>
-                        <div class="mb-3">
-                            <input type="text" class="form-control" id="modelSearchInput" 
-                                   placeholder="Enter model name or QR code..." 
-                                   onkeypress="handleModelSearchKeyPress(event)">
-                        </div>
-                        <button class="btn btn-primary w-100 mb-2" onclick="searchModel()">
-                            <i class="fas fa-search"></i> Search Model
-                        </button>
-                        <button class="btn btn-outline-secondary btn-sm w-100" onclick="showAvailableModels()">
-                            <i class="fas fa-list"></i> Browse Models
-                        </button>
-                    </div>
-                    
-                    <div class="sample-data-section">
-                        <h6>Sample Data</h6>
-                        <button class="btn btn-outline-info btn-sm w-100 mb-2" onclick="loadSampleData()">
-                            <i class="fas fa-download"></i> Load Sample LED Data
-                        </button>
-                    </div>
-                    
-                    <div class="file-upload-section" id="fileUploadSection" style="display: none;">
-                        <h6>File Upload</h6>
-                        <div class="mb-3">
-                            <input type="file" class="form-control" id="fileInput" accept=".csv,.xlsx">
-                        </div>
-                        <button class="btn btn-success w-100" onclick="uploadFile()">
-                            <i class="fas fa-upload"></i> Upload & Generate BOM
-                        </button>
-                    </div>
-                </div>
-            </div>
-            
             <!-- Main Chat Area -->
-            <div class="col-md-9 main-content">
+            <div class="col-12 main-content">
                 <div class="chat-container">
                     <div class="chat-header">
                         <h5><i class="fas fa-robot"></i> LED BOM Assistant</h5>
@@ -98,14 +31,13 @@
                             <div class="message-content">
                                 <i class="fas fa-robot"></i>
                                 <div>
-                                    <strong>Welcome to LED BOM Generator!</strong><br>
+                                    <strong>Welcome to Lotus LED Lights BOM Generator!</strong><br>
                                     I can help you create comprehensive Bill of Materials for LED light components. 
                                     <br><br>
-                                    <strong>Quick Start:</strong><br>
-                                    • Search for a model by name or QR code<br>
-                                    • Browse available models<br>
+                                    <strong>How to use:</strong><br>
+                                    • Enter a model name or QR code to search<br>
                                     • Describe your LED requirements<br>
-                                    • Upload CSV/XLSX files with LED data
+                                    • I'll generate a detailed BOM with P.O. number support
                                 </div>
                             </div>
                         </div>
