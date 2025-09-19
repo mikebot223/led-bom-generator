@@ -198,7 +198,7 @@ class LEDBOMGenerator:
             heading_style = ParagraphStyle(
                 'CustomHeading',
                 parent=styles['Heading2'],
-                fontSize=8,
+                fontSize=9,
                 spaceAfter=3,
                 textColor=colors.darkblue
             )
@@ -227,7 +227,7 @@ class LEDBOMGenerator:
                 ('TEXTCOLOR', (0, 0), (-1, -1), colors.black),
                 ('ALIGN', (0, 0), (-1, -1), 'LEFT'),
                 ('FONTNAME', (0, 0), (0, -1), 'Helvetica-Bold'),
-                ('FONTSIZE', (0, 0), (-1, -1), 6),
+                ('FONTSIZE', (0, 0), (-1, -1), 7),
                 ('BOTTOMPADDING', (0, 0), (-1, -1), 3),
                 ('BACKGROUND', (1, 0), (1, -1), colors.beige),
                 ('GRID', (0, 0), (-1, -1), 0.5, colors.black)
@@ -262,11 +262,11 @@ class LEDBOMGenerator:
                             ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
                             ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
                             ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
-                            ('FONTSIZE', (0, 0), (-1, 0), 6),
+                            ('FONTSIZE', (0, 0), (-1, 0), 7),
                             ('BOTTOMPADDING', (0, 0), (-1, 0), 3),
                             ('BACKGROUND', (0, 1), (-1, -1), colors.beige),
                             ('GRID', (0, 0), (-1, -1), 0.5, colors.black),
-                            ('FONTSIZE', (0, 1), (-1, -1), 5),
+                            ('FONTSIZE', (0, 1), (-1, -1), 7),
                             ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
                         ]))
                         
