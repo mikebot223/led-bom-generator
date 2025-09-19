@@ -207,7 +207,7 @@ class LEDBOMGenerator:
             story = []
             
             # Title
-            story.append(Paragraph("LED BILL OF MATERIALS", title_style))
+            story.append(Paragraph("Lotus LED Lights Bill of Materials", title_style))
             story.append(Spacer(1, 6))
             
             # Project information - more compact
@@ -238,8 +238,13 @@ class LEDBOMGenerator:
             
             # Components by category - more compact
             if bom_data.get('categories'):
-                for category in bom_data['categories']:
+                for i, category in enumerate(bom_data['categories']):
+                    # Add spacing before each category (except the first one)
+                    if i > 0:
+                        story.append(Spacer(1, 6))
+                    
                     story.append(Paragraph(f"{category['category']}", heading_style))
+                    story.append(Spacer(1, 2))  # Small spacing between header and table
                     
                     if category.get('components'):
                         # Create table for components
@@ -266,10 +271,8 @@ class LEDBOMGenerator:
                         ]))
                         
                         story.append(component_table)
-                        story.append(Spacer(1, 4))
                     else:
                         story.append(Paragraph("No components", styles['Normal']))
-                        story.append(Spacer(1, 3))
             
             # Signature section - smaller
             story.append(Spacer(1, 8))
