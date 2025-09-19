@@ -274,8 +274,8 @@ class LEDBOMGenerator:
                     else:
                         story.append(Paragraph("No components", styles['Normal']))
             
-            # Signature section - smaller
-            story.append(Spacer(1, 8))
+            # Signature section - more space before signature
+            story.append(Spacer(1, 20))
             
             signature_table = Table([
                 ['Done By: _________________', 'Date: _________________']
