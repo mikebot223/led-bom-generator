@@ -54,6 +54,7 @@ class LEDBOMGenerator:
             'control': ['Microcontroller', 'Sensor', 'Switch', 'Potentiometer']
         }
         self.model_database = None
+        self.bom_counter = 0  # Counter for BOM IDs
         self.load_model_database()
     
     def load_model_database(self):
@@ -116,6 +117,10 @@ class LEDBOMGenerator:
         if not model_data:
             return None
         
+        # Increment BOM counter and generate unique BOM ID
+        self.bom_counter += 1
+        bom_id = f"BOM-{self.bom_counter:04d}"
+        
         # Extract components from model data
         components = []
         
@@ -140,7 +145,7 @@ class LEDBOMGenerator:
         
         # Create BOM structure
         bom = {
-            'bom_id': f"BOM-{model_data.get('QR code', 'UNKNOWN')}",
+            'bom_id': bom_id,
             'project_name': f"LED Model: {model_data.get('Model', 'Unknown')}",
             'model_name': model_data.get('Model', 'Unknown'),
             'qr_code': model_data.get('QR code', 'Unknown'),
@@ -361,6 +366,10 @@ class LEDBOMGenerator:
     def generate_bom_with_openai(self, led_data, user_input=""):
         """Generate BOM using OpenAI API"""
         try:
+            # Increment BOM counter and generate unique BOM ID
+            self.bom_counter += 1
+            bom_id = f"BOM-{self.bom_counter:04d}"
+            
             # Prepare context for OpenAI
             context = f"""
             You are an expert LED lighting engineer creating a Bill of Materials (BOM) for LED light components.
@@ -378,7 +387,7 @@ class LEDBOMGenerator:
             
             Format the response as a structured JSON with the following structure:
             {{
-                "bom_id": "BOM-001",
+                "bom_id": "{bom_id}",
                 "project_name": "LED Light Assembly",
                 "total_components": 0,
                 "estimated_cost": "$0.00",
@@ -418,11 +427,14 @@ class LEDBOMGenerator:
             end_idx = content.rfind('}') + 1
             if start_idx != -1 and end_idx != 0:
                 json_content = content[start_idx:end_idx]
-                return json.loads(json_content)
+                bom_data = json.loads(json_content)
+                # Ensure the BOM ID is set correctly
+                bom_data['bom_id'] = bom_id
+                return bom_data
             else:
                 # Fallback: return a structured response
                 return {
-                    "bom_id": "BOM-001",
+                    "bom_id": bom_id,
                     "project_name": "LED Light Assembly",
                     "total_components": 0,
                     "estimated_cost": "$0.00",
