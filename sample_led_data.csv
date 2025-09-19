@@ -1,0 +1,6 @@
+model,type,wattage,color_temperature,luminous_flux,voltage,current,cri,beam_angle
+LED-001,High Power LED,10W,3000K,1000lm,12V,800mA,90+,120°
+LED-002,COB LED,20W,4000K,2000lm,24V,1000mA,95+,60°
+LED-003,SMD LED,5W,5000K,500lm,6V,700mA,80+,180°
+LED-004,Strip LED,15W,2700K,1500lm,12V,1200mA,85+,120°
+LED-005,Panel LED,30W,4000K,3000lm,36V,800mA,90+,120°
