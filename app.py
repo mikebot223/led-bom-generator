@@ -168,24 +168,24 @@ class LEDBOMGenerator:
         return list(categories.values())
     
     def generate_pdf_bom(self, bom_data):
-        """Generate PDF from BOM data"""
+        """Generate PDF from BOM data - optimized for single page"""
         try:
             # Create a BytesIO buffer to store the PDF
             buffer = io.BytesIO()
             
-            # Create the PDF document
-            doc = SimpleDocTemplate(buffer, pagesize=A4, rightMargin=72, leftMargin=72, 
-                                  topMargin=72, bottomMargin=18)
+            # Create the PDF document with smaller margins
+            doc = SimpleDocTemplate(buffer, pagesize=A4, rightMargin=36, leftMargin=36, 
+                                  topMargin=36, bottomMargin=36)
             
             # Get styles
             styles = getSampleStyleSheet()
             
-            # Create custom styles
+            # Create custom styles - much smaller
             title_style = ParagraphStyle(
                 'CustomTitle',
                 parent=styles['Heading1'],
-                fontSize=14,
-                spaceAfter=15,
+                fontSize=12,
+                spaceAfter=8,
                 alignment=1,  # Center alignment
                 textColor=colors.darkblue
             )
@@ -193,8 +193,8 @@ class LEDBOMGenerator:
             heading_style = ParagraphStyle(
                 'CustomHeading',
                 parent=styles['Heading2'],
-                fontSize=10,
-                spaceAfter=6,
+                fontSize=8,
+                spaceAfter=3,
                 textColor=colors.darkblue
             )
             
@@ -203,42 +203,42 @@ class LEDBOMGenerator:
             
             # Title
             story.append(Paragraph("LED BILL OF MATERIALS", title_style))
-            story.append(Spacer(1, 12))
+            story.append(Spacer(1, 6))
             
-            # Project information
+            # Project information - more compact
             project_info = [
                 ['BOM ID:', bom_data.get('bom_id', 'N/A')],
                 ['Project:', bom_data.get('project_name', 'N/A')],
                 ['Model:', bom_data.get('model_name', 'N/A')],
                 ['QR Code:', bom_data.get('qr_code', 'N/A')],
                 ['P.O. Number:', bom_data.get('po_number', 'N/A')],
-                ['Total Components:', str(bom_data.get('total_components', 0))],
-                ['Generated:', datetime.now().strftime('%Y-%m-%d %H:%M:%S')]
+                ['Components:', str(bom_data.get('total_components', 0))],
+                ['Date:', datetime.now().strftime('%Y-%m-%d %H:%M')]
             ]
             
-            project_table = Table(project_info, colWidths=[1.5*inch, 3*inch])
+            project_table = Table(project_info, colWidths=[1*inch, 2.5*inch])
             project_table.setStyle(TableStyle([
                 ('BACKGROUND', (0, 0), (0, -1), colors.lightgrey),
                 ('TEXTCOLOR', (0, 0), (-1, -1), colors.black),
                 ('ALIGN', (0, 0), (-1, -1), 'LEFT'),
                 ('FONTNAME', (0, 0), (0, -1), 'Helvetica-Bold'),
-                ('FONTSIZE', (0, 0), (-1, -1), 8),
-                ('BOTTOMPADDING', (0, 0), (-1, -1), 6),
+                ('FONTSIZE', (0, 0), (-1, -1), 6),
+                ('BOTTOMPADDING', (0, 0), (-1, -1), 3),
                 ('BACKGROUND', (1, 0), (1, -1), colors.beige),
-                ('GRID', (0, 0), (-1, -1), 1, colors.black)
+                ('GRID', (0, 0), (-1, -1), 0.5, colors.black)
             ]))
             
             story.append(project_table)
-            story.append(Spacer(1, 10))
+            story.append(Spacer(1, 6))
             
-            # Components by category
+            # Components by category - more compact
             if bom_data.get('categories'):
                 for category in bom_data['categories']:
                     story.append(Paragraph(f"{category['category']}", heading_style))
                     
                     if category.get('components'):
                         # Create table for components
-                        component_data = [['Part Number', 'Quantity']]
+                        component_data = [['Part Number', 'Qty']]
                         
                         for component in category['components']:
                             component_data.append([
@@ -246,50 +246,50 @@ class LEDBOMGenerator:
                                 str(component.get('quantity', 0))
                             ])
                         
-                        component_table = Table(component_data, colWidths=[3.5*inch, 0.8*inch])
+                        component_table = Table(component_data, colWidths=[3*inch, 0.5*inch])
                         component_table.setStyle(TableStyle([
                             ('BACKGROUND', (0, 0), (-1, 0), colors.darkblue),
                             ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
                             ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
                             ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
-                            ('FONTSIZE', (0, 0), (-1, 0), 8),
-                            ('BOTTOMPADDING', (0, 0), (-1, 0), 6),
+                            ('FONTSIZE', (0, 0), (-1, 0), 6),
+                            ('BOTTOMPADDING', (0, 0), (-1, 0), 3),
                             ('BACKGROUND', (0, 1), (-1, -1), colors.beige),
-                            ('GRID', (0, 0), (-1, -1), 1, colors.black),
-                            ('FONTSIZE', (0, 1), (-1, -1), 7),
+                            ('GRID', (0, 0), (-1, -1), 0.5, colors.black),
+                            ('FONTSIZE', (0, 1), (-1, -1), 5),
                             ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
                         ]))
                         
                         story.append(component_table)
-                        story.append(Spacer(1, 8))
+                        story.append(Spacer(1, 4))
                     else:
-                        story.append(Paragraph("No components in this section.", styles['Normal']))
-                        story.append(Spacer(1, 5))
+                        story.append(Paragraph("No components", styles['Normal']))
+                        story.append(Spacer(1, 3))
             
-            # Signature section
-            story.append(Spacer(1, 15))
+            # Signature section - smaller
+            story.append(Spacer(1, 8))
             
             signature_table = Table([
-                ['Done By: _________________________', 'Date: _________________________']
-            ], colWidths=[3*inch, 3*inch])
+                ['Done By: _________________', 'Date: _________________']
+            ], colWidths=[2.5*inch, 2.5*inch])
             signature_table.setStyle(TableStyle([
                 ('ALIGN', (0, 0), (-1, -1), 'LEFT'),
                 ('FONTNAME', (0, 0), (-1, -1), 'Helvetica'),
-                ('FONTSIZE', (0, 0), (-1, -1), 9),
-                ('BOTTOMPADDING', (0, 0), (-1, -1), 10),
-                ('TOPPADDING', (0, 0), (-1, -1), 10),
+                ('FONTSIZE', (0, 0), (-1, -1), 7),
+                ('BOTTOMPADDING', (0, 0), (-1, -1), 5),
+                ('TOPPADDING', (0, 0), (-1, -1), 5),
                 ('LINEBELOW', (0, 0), (0, 0), 1, colors.black),
                 ('LINEBELOW', (1, 0), (1, 0), 1, colors.black),
             ]))
             
             story.append(signature_table)
             
-            # Footer
-            story.append(Spacer(1, 10))
+            # Footer - smaller
+            story.append(Spacer(1, 5))
             footer_style = ParagraphStyle(
                 'Footer',
                 parent=styles['Normal'],
-                fontSize=8,
+                fontSize=6,
                 alignment=1  # Center alignment
             )
             story.append(Paragraph("Generated by LED BOM Generator", footer_style))
